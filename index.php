@@ -1,9 +1,10 @@
 <?php
 //declare(strict_types=1);
-
 spl_autoload_register(function (string $class) {
     require_once __DIR__ . "/{$class}.php";
 });
+
+use App\Views\View;
 
 $route = $_GET['route'] ?? '';
 $routes = require __DIR__ . '/App/routes.php';
@@ -18,7 +19,7 @@ foreach ($routes as $pattern => $controllerAndAction) {
 }
 
 if (!$isRouteFound) {
-    $view = new App\Views\View(__DIR__ . '/templates/');
+    $view = new View(__DIR__ . '/templates/');
     $view->setCode(404);
     $view->renderHtml('errors/404.php');
     return;
