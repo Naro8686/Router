@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Test</title>
-    <link rel="stylesheet" href="/templates/styles/style.css">
+    <link href="<?= assets('/templates/styles/style.css')?>" rel="stylesheet">
 </head>
 <body>
 

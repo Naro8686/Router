@@ -25,10 +25,10 @@ class View
      */
     public function renderHtml(string $templateName, array $vars = [], int $code = 200)
     {
-        print_r('status code '.$code);
         http_response_code($code);
         extract($vars);
         ob_start();
+        include_once "./App/helpers.php";
         include_once $this->templatesPath . $this->header;
         include_once $this->templatesPath . '/' . $templateName;
         include_once $this->templatesPath . $this->footer;
