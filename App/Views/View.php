@@ -9,12 +9,19 @@ class View
     private $footer = '/layout/footer.php';
     private $title = 'Мой блог';
 
-    public function __construct(string $templatesPath)
+    /**
+     * @param string $templatesPath
+     */
+    public function __construct($templatesPath)
     {
         $this->templatesPath = $templatesPath;
     }
 
-    public function setCode(int $code)
+    /**
+     * @param int $code
+     * @return void
+     */
+    public function setCode($code)
     {
         $this->code = $code;
     }
@@ -22,8 +29,9 @@ class View
     /**
      * @param string $templateName
      * @param array $vars
+     * @param int $code
      */
-    public function renderHtml(string $templateName, array $vars = [], int $code = 200)
+    public function renderHtml($templateName, $vars = [], $code = 200)
     {
         http_response_code($code);
         extract($vars);

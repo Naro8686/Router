@@ -1,5 +1,9 @@
 <?php
-function assets(string $path): string
+/**
+ * @param string $path
+ * @return string
+ */
+function assets($path)
 {
     $isHttps = !empty($_SERVER['HTTPS']) && 'off' !== strtolower($_SERVER['HTTPS']);
     $protocol = $isHttps ? 'https://' : 'http://';
@@ -7,7 +11,11 @@ function assets(string $path): string
     return $protocol . $_SERVER['SERVER_NAME'] . "/" . $p . $path;
 }
 
-function public_path(string $path = ''): string
+/**
+ * @param $path
+ * @return string
+ */
+function public_path($path = '')
 {
     return assets($path);
 }

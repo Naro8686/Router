@@ -30,7 +30,7 @@ class User extends ActiveRecordEntity
     /**
      * @return string
      */
-    public function getNickname(): string
+    public function getNickname()
     {
         return $this->nickname;
     }
@@ -40,7 +40,7 @@ class User extends ActiveRecordEntity
         return $this->email;
     }
 
-    protected static function getTableName(): string
+    public static function getTableName()
     {
         return 'users';
     }

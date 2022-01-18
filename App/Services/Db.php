@@ -31,7 +31,15 @@ class Db
         }
     }
 
-    public static function getInstance(): self
+    public function getPdo()
+    {
+        return $this->pdo;
+    }
+
+    /**
+     * @return self
+     */
+    public static function getInstance()
     {
         if (self::$instance === null) {
             self::$instance = new self();
@@ -40,15 +48,30 @@ class Db
         return self::$instance;
     }
 
-    public function query(string $sql, array $params = [], string $className = 'stdClass'): ?array
+    /**
+     * @param string $sql
+     * @param array $params
+     * @param string $className
+     * @return array|false|null
+     */
+    public function query($sql, $params = [], $className = 'stdClass')
     {
-        $sth = $this->pdo->prepare($sql);
-        $result = $sth->execute($params);
+        try {
+            $sth = $this->pdo->prepare($sql);
+            $result = $sth->execute($params);
 
-        if (false === $result) {
-            return null;
+            if (false === $result) {
+                return null;
+            }
+            if (preg_match('/^(DELETE)(.+?)$/u',$sql)) {
+                return $sth->rowCount();
+            }
+            $sth->setFetchMode(PDO::FETCH_CLASS, $className);
+            return $sth->fetchAll();
+        } catch (PDOException $PDOException) {
+            if ($PDOException->getCode() !== "HY000")
+                echo $PDOException->getCode();
         }
-
-        return $sth->fetchAll(PDO::FETCH_CLASS, $className);
+        return null;
     }
 }

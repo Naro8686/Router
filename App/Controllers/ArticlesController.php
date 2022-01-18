@@ -17,7 +17,11 @@ class ArticlesController
         $this->view = new View(__DIR__ . '/../../templates/');
     }
 
-    public function view(int $articleId)
+    /**
+     * @param int $articleId
+     * @return void
+     */
+    public function view($articleId)
     {
         $article = Article::getById($articleId);
         if ($article === null) {
@@ -29,7 +33,11 @@ class ArticlesController
         ]);
     }
 
-    public function edit(int $articleId): void
+    /**
+     * @param int $articleId
+     * @return void
+     */
+    public function edit($articleId)
     {
         $article = Article::getById($articleId);
         if ($article === null) {

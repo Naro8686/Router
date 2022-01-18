@@ -1,12 +1,12 @@
 <?php
 //declare(strict_types=1);
-spl_autoload_register(function (string $class) {
+spl_autoload_register(function ($class) {
     require_once __DIR__ . "/{$class}.php";
 });
 
 use App\Views\View;
 
-$route = $_GET['route'] ?? '';
+$route = isset($_GET['route']) ? $_GET['route'] : '';
 $routes = require __DIR__ . '/App/routes.php';
 
 $isRouteFound = false;
@@ -19,7 +19,7 @@ foreach ($routes as $pattern => $controllerAndAction) {
 }
 
 if (!$isRouteFound) {
-    $view = new View(__DIR__ . '/templates/');
+    $view = new View(sprintf("%s/templates/", __DIR__));
     $view->setCode(404);
     $view->renderHtml('errors/404.php');
     return;
@@ -27,11 +27,14 @@ if (!$isRouteFound) {
 /** @var $matches */
 unset($matches[0]);
 //unset($_GET['route']);
-$controllerName = $controllerAndAction[0];
-$actionName = $controllerAndAction[1];
+if (!empty($controllerAndAction)) {
+    $controllerName = $controllerAndAction[0];
+    $actionName = $controllerAndAction[1];
 
-$controller = new $controllerName();
-$controller->$actionName(...$matches);
+    $controller = new $controllerName();
+    $controller->$actionName(...$matches);
+}
+
 //echo "<pre>";
 //print_r(get_declared_classes());
 //echo "</pre>";
